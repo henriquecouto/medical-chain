@@ -2,10 +2,10 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 import "entities/ClinicalDataType.sol";
+import "./definitions/ClinicalData.sol";
 
-contract ClinicalData {
-
-  address public minter;
+contract ClinicalData is IClinicalData {
+  address override public minter;
   ClinicalDataType clinicalData;
 
   constructor() {
@@ -22,15 +22,15 @@ contract ClinicalData {
     _;
   }
 
-  function save(ClinicalDataType memory _clinicalData) public onlyBy(minter) {
+  function save(ClinicalDataType memory _clinicalData) override public onlyBy(minter) {
     clinicalData = _clinicalData;
   }
 
-  function get() public onlyBy(minter) view returns(ClinicalDataType memory) {
+  function get() override public onlyBy(minter) view returns(ClinicalDataType memory) {
     return clinicalData;
   }
   
-  function get(address _reader) public onlyBy(_reader) onlyExternal view returns(ClinicalDataType memory) {
+  function get(address _reader) override public onlyBy(_reader) onlyExternal view returns(ClinicalDataType memory) {
     return clinicalData;
   }
 }
